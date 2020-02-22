@@ -12,10 +12,6 @@ import com.example.nytcodingchallenge.apai_connections.TestApi;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class MainActivity extends AppCompatActivity {
 
     private ApiCall apiCall = new ApiCall("https://api.github.com");
@@ -65,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setResponse(String response){
-        Log.d("NytApp", "Testing");
         System.out.println(response);
     }
 
@@ -84,18 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchBar() {
         //TODO Add search bar Async/RxJava to search on change
-    }
-
-
-
-    private OkHttpClient client = new OkHttpClient();
-
-    private void OkHttpRequests(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        Response response = client.newCall(request).execute();
     }
 }
 

@@ -15,7 +15,7 @@ public class ApiCall {
 
     private OkHttpClient client = new OkHttpClient();
 
-    String run() throws IOException {
+    private String run() throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
