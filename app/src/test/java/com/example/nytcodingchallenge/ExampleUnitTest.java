@@ -21,15 +21,12 @@ public class ExampleUnitTest {
 
 
     @Test
-    public void api_call_test(){
-        ApiCall apiCall = new ApiCall();
-        String responseString = "";
-        try {
-            responseString = apiCall.getResponse("https://api.github.com");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals("n/a", responseString);
+    public void api_split_test(){
+        String repoInfo1 = "square/retrofit";
+        String repoInfo2 = "bma33/android_projects";
+        String repoInfo3 = "airbnb/exampleProject";
+        String[] repoDetails = repoInfo1.split("/", 2);
+        assertEquals(repoDetails[0], "square");
+        assertEquals(repoDetails[1], "android_projects");
     }
 }
