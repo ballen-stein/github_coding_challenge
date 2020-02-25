@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">nyt coding challenge</string>
+
+    <string name="repo_company_name">Company Name</string>
+    <string name="repo_company_stars">Stars</string>
+    <string name="placeholder_repo">repoName</string>
+    <string name="placeholder_stars">43531</string>
+    <string name="placeholder_extra">Extra Placeholder</string>
 </resources>
