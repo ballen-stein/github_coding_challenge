@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
+            android:padding="4dp"
             android:layout_margin="4dp">
 
             <TextView
@@ -25,6 +26,7 @@
                 android:text="@string/repo_company_name"
                 android:textSize="18sp"
                 android:layout_marginStart="6dp"
+                android:layout_marginBottom="6dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/repo_name_display"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +39,7 @@
                 android:text="@string/placeholder_repo"
                 android:textSize="18sp"
                 android:layout_marginStart="6dp"
+                android:layout_marginBottom="6dp"
                 app:layout_constraintStart_toEndOf="@id/repo_company_display"
                 app:layout_constraintEnd_toStartOf="@id/repo_stars_image"
                 app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +50,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="32dp"
+                android:layout_marginBottom="6dp"
                 android:background="@android:drawable/btn_star_big_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/repo_stars_display"
@@ -59,9 +63,20 @@
                 android:text="@string/placeholder_stars"
                 android:textSize="18sp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginBottom="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repo_click"
+                android:textSize="18sp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

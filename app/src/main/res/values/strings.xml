@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">nyt coding challenge</string>
 
+    <string name="no_repo_found">Sorry, we found no repos for this company.</string>
     <string name="repo_company_name">Company Name</string>
     <string name="repo_company_stars">Stars</string>
+    <string name="repo_click">Click Anywhere to View Repo Webpage</string>
     <string name="placeholder_repo">repoName</string>
     <string name="placeholder_stars">43531</string>
     <string name="placeholder_extra">Extra Placeholder</string>
