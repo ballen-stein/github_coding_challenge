@@ -1,9 +1,10 @@
 package com.example.nytcodingchallenge;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,18 +30,11 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-
-import static io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread;
-import static io.reactivex.rxjava3.schedulers.Schedulers.newThread;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -274,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             for(int i = 0; i < temp.size(); i++){
-                Log.d("GithubChallengeApp", i+": " + temp.get(i).getFull_name() + ", " + temp.get(i).getStargazers_count() + ", " + temp.get(i).getUrl());
+                Log.d("GithubChallengeApp", i+": " + temp.get(i).getFull_name() + ", " + temp.get(i).getStargazers_count() + ", " + temp.get(i).getHtml_url());
             }
         } catch (Exception e){
             Log.d("GithubChallengeApp", "This organization has less than 3 repos");
@@ -302,6 +296,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchBar() {
         //TODO Add search bar Async/RxJava to search on change
+    }
+
+    public void starWebView(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
 

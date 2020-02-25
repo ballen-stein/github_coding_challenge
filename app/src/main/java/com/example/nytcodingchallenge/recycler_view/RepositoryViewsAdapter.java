@@ -1,13 +1,11 @@
 package com.example.nytcodingchallenge.recycler_view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +23,7 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
     private LayoutInflater mInflater;
     private Context mContext;
     private ArrayList<Organization> dataSet;
+    private static OnClickListener clickListener;
 
     /*
     RepositoryViewsAdapter(Context context, ArrayList<Organization> organizations){
@@ -66,7 +65,7 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
         TextView starCount = holder.starCount;
 
         CardView repoLayout = holder.repoLayout;
-        repoLayout.setContentDescription(dataSet.get(position).getUrl());
+        repoLayout.setContentDescription(dataSet.get(position).getHtml_url());
 
         String[] repoDetails = dataSet.get(position).getFull_name().split("/", 2);
         companyName.setText(repoDetails[0]);
@@ -96,7 +95,6 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
             repoName = itemView.findViewById(R.id.repo_name_display);
             starCount = itemView.findViewById(R.id.repo_stars_display);
             webView = itemView.findViewById(R.id.repo_main_web_view);
-            //setWebViewSettings();
             itemView.setOnClickListener(this);
         }
 
@@ -111,12 +109,15 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
 
         @Override
         public void onClick(View view) {
-            openRepoLink(organization.getUrl());
+            clickListener.onRepoClick(getAdapterPosition(), organization, view);
         }
+    }
 
-        private void openRepoLink(String url) {
-            //WebView webView = new WebView();
-            //webView.loadUrl(url);
-        }
+    public void setOnClickListener(OnClickListener cListener){
+        RepositoryViewsAdapter.clickListener = cListener;
+    }
+
+    public interface OnClickListener {
+        void onRepoClick(int position, Organization organization, View v);
     }
 }
