@@ -1,4 +1,4 @@
-package com.example.nytcodingchallenge.model;
+package com.example.githubcodingchallenge.model;
 
 public class Organization {
     private String full_name;

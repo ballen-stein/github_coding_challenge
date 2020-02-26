@@ -1,4 +1,4 @@
-package com.example.nytcodingchallenge.apai_connections;
+package com.example.githubcodingchallenge.apai_connections;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.example.nytcodingchallenge;
+package com.example.githubcodingchallenge;
 
 import android.content.Context;
 

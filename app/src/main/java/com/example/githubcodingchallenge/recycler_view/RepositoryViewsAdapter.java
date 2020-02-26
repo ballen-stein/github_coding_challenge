@@ -1,4 +1,4 @@
-package com.example.nytcodingchallenge.recycler_view;
+package com.example.githubcodingchallenge.recycler_view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,41 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nytcodingchallenge.R;
-import com.example.nytcodingchallenge.model.Organization;
+import com.example.githubcodingchallenge.R;
+import com.example.githubcodingchallenge.model.Organization;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViewsAdapter.ViewHolder> {
 
-    private LayoutInflater mInflater;
-    private Context mContext;
     private ArrayList<Organization> dataSet;
     private static OnClickListener clickListener;
 
-    /*
-    RepositoryViewsAdapter(Context context, ArrayList<Organization> organizations){
-        this.mContext = context;
-        this.mInflater = LayoutInflater.from(context);
-        setDataSet(organizations);
-    }
-
-
-    private void setDataSet(ArrayList<Organization> organizations) {
-        this.dataSet = organizations;
-    }
-
-     */
-
     RepositoryViewsAdapter(ArrayList<Organization> organizations){
         dataSet = organizations;
-        //dataSet = new ArrayList<>();
-    }
-
-    public void setAdapterList(List<Organization> organizations){
-        dataSet.clear();
-        dataSet.addAll(organizations);
     }
 
 
@@ -56,6 +33,7 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.repo_cardview, parent, false);
         return new ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull final RepositoryViewsAdapter.ViewHolder holder, final int position) {
@@ -76,11 +54,11 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
     }
 
 
-
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView companyName, repoName, starCount;
@@ -88,7 +66,7 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
         WebView webView;
         Organization organization;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             repoLayout = itemView.findViewById(R.id.repo_card_layout);
             companyName = itemView.findViewById(R.id.repo_company_display);
@@ -98,14 +76,11 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
             itemView.setOnClickListener(this);
         }
 
-        private void setWebViewSettings() {
-            WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-        }
 
-        public void setOrg(Organization org){
+        private void setOrg(Organization org){
             this.organization = org;
         }
+
 
         @Override
         public void onClick(View view) {
@@ -113,9 +88,11 @@ public class RepositoryViewsAdapter extends RecyclerView.Adapter<RepositoryViews
         }
     }
 
+
     public void setOnClickListener(OnClickListener cListener){
         RepositoryViewsAdapter.clickListener = cListener;
     }
+
 
     public interface OnClickListener {
         void onRepoClick(int position, Organization organization, View v);

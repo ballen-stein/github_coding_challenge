@@ -1,4 +1,4 @@
-package com.example.nytcodingchallenge;
+package com.example.githubcodingchallenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.nytcodingchallenge.apai_connections.ApiCall;
-import com.example.nytcodingchallenge.model.Organization;
-import com.example.nytcodingchallenge.model.OrganizationRepoCount;
-import com.example.nytcodingchallenge.recycler_view.RepositoryViews;
+import com.example.githubcodingchallenge.apai_connections.ApiCall;
+import com.example.githubcodingchallenge.model.Organization;
+import com.example.githubcodingchallenge.model.OrganizationRepoCount;
+import com.example.githubcodingchallenge.recycler_view.RepositoryViews;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -25,12 +26,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.internal.operators.observable.ObservableError;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Response;
 
@@ -39,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private String apiUrl, searchedOrg, githubUrl = "https://api.github.com/orgs/";
     private int public_repos = -1, repoPageCount = 1;
     private Context mContext;
-
     private EditText searchBar;
+    private RepositoryViews repositoryViews;
 
     List<Organization> orgList = new ArrayList<>();
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
         searchBar = findViewById(R.id.searchBar);
+        repositoryViews= new RepositoryViews(mContext);
         searchListener();
     }
 
@@ -64,10 +66,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                findViewById(R.id.reposUpdateFrame).bringToFront();
                 setApiInformation();
             }
         });
     }
+
 
     private void setApiInformation(){
         searchedOrg = searchBar.getText().toString();
@@ -79,31 +83,8 @@ public class MainActivity extends AppCompatActivity {
         makeApiCalls(false);
     }
 
+
     private void makeApiCalls(boolean getRepoList){
-        Observable<Response> observable = Observable.create(new ObservableOnSubscribe<Response>() {
-            //OkHttpClient client = new OkHttpClient();
-
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Response> emitter) throws Throwable {
-                try{
-                    /*Request request = new Request.Builder()
-                            .url(apiUrl)
-                            .build();
-
-                    Response response = client.newCall(request).execute();*/
-                    Response response = new ApiCall(apiUrl).getResponse();
-                    if(response.isSuccessful()){
-                        emitter.onNext(response);
-                    }
-                    emitter.onComplete();
-                } catch (IOException e){
-                    if(!emitter.isDisposed()){
-                        emitter.onError(e);
-                    }
-                }
-            }
-        });
-
         Observer observer = new Observer() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -142,7 +123,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        observable.subscribeOn(Schedulers.io())
+
+        Observable.defer(() -> {
+            try{
+                Response response = new ApiCall(apiUrl).getResponse();
+                return Observable.just(response);
+            } catch (IOException e){
+                return Observable.error(e);
+            }
+        }).subscribeOn(Schedulers.io())
                 .subscribe(observer);
     }
 
@@ -166,6 +155,22 @@ public class MainActivity extends AppCompatActivity {
         JsonAdapter<OrganizationRepoCount> jsonAdapter = moshi.adapter(OrganizationRepoCount.class);
         OrganizationRepoCount repoCount = jsonAdapter.fromJson(response);
         public_repos = Objects.requireNonNull(repoCount).getPublic_repos();
+        setUpdateTextVisibility();
+    }
+
+
+    private void setUpdateTextVisibility(){
+        try{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.noReposFoundText).setVisibility(View.GONE);
+                    findViewById(R.id.reposFoundFrame).setVisibility(View.VISIBLE);
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -191,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    RepositoryViews repositoryViews = new RepositoryViews(mContext);
+                    findViewById(R.id.reposFoundFrame).setVisibility(View.GONE);
+                    findViewById(R.id.repoRecyclerView).bringToFront();
                     repositoryViews.setTopRepos();
                 }
             });
@@ -204,16 +210,15 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Organization> getSortedRepos(){
         ArrayList<Organization> tempList = new ArrayList<>();
         try{
-            int listTopThree =3;
+            int listTopThree = 3;
             if(orgList.size() < 3 && orgList.size() > 0){
                 listTopThree = public_repos;
             }
             for(int i=0; i < listTopThree; i++){
                 tempList.add(orgList.get(i));
             }
-            findViewById(R.id.noReposFoundFrame).setVisibility(View.GONE);
         } catch (Exception e){
-            findViewById(R.id.noReposFoundFrame).setVisibility(View.VISIBLE);
+            findViewById(R.id.noReposFoundText).setVisibility(View.VISIBLE);
             e.printStackTrace();
         }
         return tempList;
@@ -226,4 +231,3 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-

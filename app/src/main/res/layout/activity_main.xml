@@ -50,6 +50,49 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <FrameLayout
+        android:id="@+id/reposUpdateFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchConstraint">
+
+        <TextView
+            android:id="@+id/noReposFoundText"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:text="@string/no_repo_found" />
+
+        <LinearLayout
+            android:id="@+id/reposFoundFrame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical" >
+
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repo_found" />
+
+            <ProgressBar
+                android:layout_width="300dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/repoRecyclerView"
         android:layout_width="match_parent"
@@ -59,21 +102,5 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <FrameLayout
-        android:id="@+id/noReposFoundFrame"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchConstraint">
-
-        <TextView
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_repo_found" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

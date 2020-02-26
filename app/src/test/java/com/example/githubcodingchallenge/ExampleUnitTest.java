@@ -1,10 +1,6 @@
-package com.example.nytcodingchallenge;
-
-import com.example.nytcodingchallenge.apai_connections.ApiCall;
+package com.example.githubcodingchallenge;
 
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 

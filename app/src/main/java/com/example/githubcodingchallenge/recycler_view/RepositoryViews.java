@@ -1,15 +1,14 @@
-package com.example.nytcodingchallenge.recycler_view;
+package com.example.githubcodingchallenge.recycler_view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nytcodingchallenge.MainActivity;
-import com.example.nytcodingchallenge.R;
-import com.example.nytcodingchallenge.model.Organization;
+import com.example.githubcodingchallenge.MainActivity;
+import com.example.githubcodingchallenge.R;
+import com.example.githubcodingchallenge.model.Organization;
 
 import java.util.ArrayList;
 
@@ -43,10 +42,8 @@ public class RepositoryViews {
         adapter.setOnClickListener(new RepositoryViewsAdapter.OnClickListener() {
             @Override
             public void onRepoClick(int position, Organization organization, View v) {
-                Log.d("GithubChallengeApp", organization.getHtml_url());
                 activity.starWebView(organization.getHtml_url());
             }
         });
     }
-
 }
